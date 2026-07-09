@@ -122,6 +122,8 @@ pnpm dev
 
 Open `http://localhost:5173` in Chrome or Edge.
 
+These commands intentionally target this forked repository (`deo9001/texbrain_quick`).
+
 If Corepack is already enabled on your machine, the `corepack enable` step is harmless and can simply stay in the sequence above.
 
 > Note: the full app and the standalone `texbrain.html` serve different goals. The standalone page is for no-install local editing; the full app is for actual browser compilation, multi-file work, git, and collaboration.

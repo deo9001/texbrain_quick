@@ -77,6 +77,8 @@ const FOCUS_KEY = 'texbrain-standalone-focus';
 const FILE_NAME_KEY = 'texbrain-standalone-file-name';
 const MATHJAX_URL = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js';
 const MATH_ENVS = new Set(['equation', 'equation*', 'align', 'align*', 'gather', 'gather*', 'multline', 'multline*']);
+const MATHJAX_LOAD_TIMEOUT_MS = 8000;
+const BUTTON_FEEDBACK_MS = 1200;
 const RAW_ENVIRONMENTS = new Set(['lstlisting', 'verbatim', 'Verbatim']);
 const FALLBACK_MESSAGES = {
   tikzpicture: 'TikZ graphics are shown as source because static mode does not run a TeX engine or picture compiler.',
@@ -674,7 +676,7 @@ async function copySource() {
   }
   window.setTimeout(() => {
     elements.copyBtn.textContent = 'Copy source';
-  }, 1200);
+  }, BUTTON_FEEDBACK_MS);
 }
 
 async function loadSelectedFile(event) {
@@ -759,7 +761,7 @@ function initMathJax() {
       setChipState(elements.mathStatusChip, 'Math: CDN is taking longer than expected', 'is-warning');
       scheduleRender(0);
     }
-  }, 8000);
+  }, MATHJAX_LOAD_TIMEOUT_MS);
 
   const script = document.createElement('script');
   script.src = MATHJAX_URL;
