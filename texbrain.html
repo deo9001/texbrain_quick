@@ -221,7 +221,7 @@
     const sample = String.raw`\documentclass{article}
 \title{TeXbrain Standalone Demo}
 \author{Local File Mode}
-\date{\today}
+    \date{July 2026}
 
 \begin{document}
 \maketitle
@@ -264,13 +264,14 @@ $$
 
     function renderInline(raw) {
       let out = escapeHtml(raw);
-      out = out.replace(/\\today/g, escapeHtml(new Date().toLocaleDateString()));
+      out = out.replace(/\\today/g, new Date().toLocaleDateString());
       out = out.replace(/\\textbf\{([^{}]+)\}/g, '<strong>$1</strong>');
       out = out.replace(/\\emph\{([^{}]+)\}/g, '<em>$1</em>');
       out = out.replace(/\\textit\{([^{}]+)\}/g, '<em>$1</em>');
       out = out.replace(/\\underline\{([^{}]+)\}/g, '<u>$1</u>');
       out = out.replace(/\\\\/g, '<br>');
       out = out.replace(/\$((?:\\.|[^$])+?)\$/g, '<span class="math-inline">$1</span>');
+      out = out.replace(/\n/g, '<br>');
       return out;
     }
 
@@ -284,7 +285,7 @@ $$
         const item = listLine.match(/^\\item\s+(.*)$/);
         if (item) items.push(`<li>${renderInline(item[1])}</li>`);
       }
-      return { html: items.join('') || '<li></li>', index: i };
+      return { html: items.join(''), index: i };
     }
 
     function renderLatexSource(source) {
@@ -301,7 +302,7 @@ $$
 
       function flushParagraph() {
         if (!paragraphLines.length) return;
-        html += `<p>${renderInline(paragraphLines.join('\n')).replace(/\n/g, '<br>')}</p>`;
+        html += `<p>${renderInline(paragraphLines.join('\n'))}</p>`;
         paragraphLines = [];
       }
 
