@@ -106,7 +106,7 @@ The standalone experience is still intentionally separate from the full Svelte a
 - It uses **MathJax 3 via jsDelivr CDN** for math rendering.
 - If CDN/network access is blocked, the editor still works for loading, editing, autosave, copy, and export, but math remains visible as TeX source and the app tells you why.
 
-See [`texbrain_info.md`](./texbrain_info.md) for dependency disclosure, usage details, limitations, troubleshooting, and full standalone-vs-full-app notes.
+See [`texbrain_standalone_info.md`](./texbrain_standalone_info.md) for dependency disclosure, usage details, limitations, troubleshooting, and full standalone-vs-full-app notes.
 
 ## Developer setup (full app)
 
