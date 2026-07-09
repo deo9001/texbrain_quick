@@ -85,21 +85,43 @@ If you downloaded the repository ZIP, you can use TeXbrain immediately:
 2. Open the extracted folder.
 3. Double-click `texbrain.html`.
 
-This opens a standalone offline editor from `file://` with live source preview.  
-It keeps core writing flow (edit LaTeX/source + instant preview), but advanced app features such as full PDF compilation, real-time collaboration, and git sync are not available in this static mode.
+This upgraded standalone mode now uses a dedicated local shell:
+
+- `texbrain.html`
+- `standalone/texbrain-standalone.css`
+- `standalone/texbrain-standalone.js`
+
+The standalone experience is still intentionally separate from the full Svelte app, but it is much stronger than the original lightweight parser:
+
+- live local editing with autosave
+- `.tex` import/export/copy/reset workflows
+- visible render status, warning panel, help/about UI, and keyboard shortcuts
+- support for common document structure (`\title`, `\author`, `\date`, `\maketitle`, sections, paragraphs, lists)
+- better math preview for `$...$`, `\(...\)`, `$$...$$`, `\[...\]`, `equation`, `equation*`, `align`, `align*`, and similar common display-math environments
+- graceful fallback/source panels for unsupported environments such as TikZ, tables, `tabularx`, and listings
+
+### Standalone dependency behavior
+
+- The standalone page loads its own CSS/JS from local relative paths, so extracted ZIP usage works from `file://`.
+- It uses **MathJax 3 via jsDelivr CDN** for math rendering.
+- If CDN/network access is blocked, the editor still works for loading, editing, autosave, copy, and export, but math remains visible as TeX source and the app tells you why.
+
+See [`texbrain_info.md`](./texbrain_info.md) for dependency disclosure, usage details, limitations, troubleshooting, and full standalone-vs-full-app notes.
 
 ## Developer setup (full app)
 
 To run the full Svelte app with PDF compilation and git/collaboration workflows:
 
 ```bash
-git clone https://github.com/swimmingbrain/texbrain.git
-cd texbrain
-pnpm install
-pnpm dev
+git clone https://github.com/deo9001/texbrain_quick.git
+cd texbrain_quick
+corepack pnpm install
+corepack pnpm dev
 ```
 
 Open `http://localhost:5173` in Chrome or Edge.
+
+> Note: the full app and the standalone `texbrain.html` serve different goals. The standalone page is for no-install local editing; the full app is for actual browser compilation, multi-file work, git, and collaboration.
 
 ## Browser support
 
