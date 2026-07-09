@@ -233,7 +233,7 @@ function renderInline(text) {
   const tokens = [];
   const mathWrapped = normalized.replace(/\\\(([\s\S]+?)\\\)|\$([^$\n]+?)\$/g, (match, parenExpr, dollarExpr) => {
     const expression = parenExpr ?? dollarExpr ?? '';
-    const display = parenExpr ? String.raw`\\(${expression}\\)` : String.raw`\\(${expression}\\)`;
+    const display = parenExpr ? String.raw`\(${expression}\)` : '$' + expression + '$';
     const token = `__TEXBRAIN_INLINE_MATH_${tokens.length}__`;
     tokens.push(`<span class="tex-inline">${escapeHtml(display)}</span>`);
     return token;

@@ -113,7 +113,7 @@ See [`texbrain_info.md`](./texbrain_info.md) for dependency disclosure, usage de
 To run the full Svelte app with PDF compilation and git/collaboration workflows:
 
 ```bash
-git clone https://github.com/deo9001/texbrain_quick.git
+git clone <this repository's GitHub clone URL>
 cd texbrain_quick
 corepack enable
 pnpm install
@@ -122,7 +122,7 @@ pnpm dev
 
 Open `http://localhost:5173` in Chrome or Edge.
 
-These commands intentionally target this forked repository (`deo9001/texbrain_quick`).
+Use the green **Code** button on this repository page to copy the current clone URL if the fork or upstream location changes.
 
 If Corepack is already enabled on your machine, the `corepack enable` step is harmless and can simply stay in the sequence above.
 
