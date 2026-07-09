@@ -121,6 +121,8 @@ corepack pnpm dev
 
 Open `http://localhost:5173` in Chrome or Edge.
 
+If your Node installation does not already expose pnpm through Corepack, run `corepack enable` once first, then repeat the commands above.
+
 > Note: the full app and the standalone `texbrain.html` serve different goals. The standalone page is for no-install local editing; the full app is for actual browser compilation, multi-file work, git, and collaboration.
 
 ## Browser support

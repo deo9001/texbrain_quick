@@ -384,7 +384,7 @@ function renderDocument(source) {
           if (lines[index].trim() === '$$') break;
         }
       }
-      html.push(renderMathCard(mathLines.join('\n'), '$$ display math')); 
+      html.push(renderMathCard(mathLines.join('\n'), '$$ display math'));
       continue;
     }
 
@@ -401,7 +401,7 @@ function renderDocument(source) {
           if (lines[index].includes('\\]')) break;
         }
       }
-      html.push(renderMathCard(mathLines.join('\n'), '\\[ display math')); 
+      html.push(renderMathCard(mathLines.join('\n'), '\\[ display math'));
       continue;
     }
 
@@ -516,7 +516,7 @@ async function typesetPreview() {
     }
     await window.MathJax.typesetPromise([elements.previewPaper]);
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
+    const message = error instanceof Error ? error.message : String(error ?? 'Unknown error');
     addWarning(state.warnings, `MathJax reported a rendering error: ${message}`);
     updateWarningPanel(state.warnings);
     setChipState(elements.renderStatusChip, 'Render: completed with math warnings', 'is-warning');
@@ -660,7 +660,11 @@ async function copySource() {
       await navigator.clipboard.writeText(elements.editor.value);
     } else {
       elements.editor.select();
-      document.execCommand('copy');
+      try {
+        document.execCommand('copy');
+      } catch {
+        throw new Error('Clipboard copy fallback failed');
+      }
     }
     elements.copyBtn.textContent = 'Copied';
   } catch {
