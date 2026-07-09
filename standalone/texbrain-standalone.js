@@ -89,6 +89,8 @@ const FALLBACK_MESSAGES = {
   center: 'This environment is preserved as source in standalone mode.'
 };
 
+const TODAY_DISPLAY = new Date().toISOString().slice(0, 10);
+
 const state = {
   currentFileName: localStorage.getItem(FILE_NAME_KEY) || 'sample.tex',
   mathStatus: 'loading',
@@ -102,7 +104,7 @@ const elements = {
   editor: document.getElementById('editor'),
   previewPaper: document.getElementById('previewPaper'),
   previewBanner: document.getElementById('previewBanner'),
-  loadBtn: document.getElementById('loadBtn'),
+  loadButton: document.getElementById('loadBtn'),
   fileInput: document.getElementById('fileInput'),
   downloadBtn: document.getElementById('downloadBtn'),
   copyBtn: document.getElementById('copyBtn'),
@@ -112,8 +114,8 @@ const elements = {
   layoutEditorBtn: document.getElementById('layoutEditorBtn'),
   focusBtn: document.getElementById('focusBtn'),
   themeSelect: document.getElementById('themeSelect'),
-  helpBtn: document.getElementById('helpBtn'),
-  aboutBtn: document.getElementById('aboutBtn'),
+  helpButton: document.getElementById('helpBtn'),
+  aboutButton: document.getElementById('aboutBtn'),
   helpDialog: document.getElementById('helpDialog'),
   aboutDialog: document.getElementById('aboutDialog'),
   aboutContent: document.getElementById('aboutContent'),
@@ -204,7 +206,7 @@ function extractDocument(source) {
     documentClass: readCommandValue(preamble, 'documentclass') || 'unknown',
     title: readCommandValue(stripped, 'title'),
     author: readCommandValue(stripped, 'author'),
-    date: (readCommandValue(stripped, 'date') || '').replace(/\\today/g, new Date().toLocaleDateString()),
+    date: (readCommandValue(stripped, 'date') || '').replace(/\\today/g, TODAY_DISPLAY),
     packages: extractPackages(preamble)
   };
 }
@@ -225,7 +227,7 @@ function applyInlineFormatting(text) {
 }
 
 function renderInline(text) {
-  const normalized = normalizeNewlines(text).replace(/\\today/g, new Date().toLocaleDateString());
+  const normalized = normalizeNewlines(text).replace(/\\today/g, TODAY_DISPLAY);
   const tokens = [];
   const mathWrapped = normalized.replace(/\\\(([\s\S]+?)\\\)|\$([^$\n]+?)\$/g, (match, parenExpr, dollarExpr) => {
     const expression = parenExpr ?? dollarExpr ?? '';
@@ -787,7 +789,7 @@ function restoreUiPreferences() {
 
 function bindEvents() {
   elements.editor.addEventListener('input', () => scheduleRender());
-  elements.loadBtn.addEventListener('click', () => elements.fileInput.click());
+  elements.loadButton.addEventListener('click', () => elements.fileInput.click());
   elements.fileInput.addEventListener('change', loadSelectedFile);
   elements.downloadBtn.addEventListener('click', downloadSource);
   elements.copyBtn.addEventListener('click', copySource);
@@ -797,8 +799,8 @@ function bindEvents() {
   elements.layoutEditorBtn.addEventListener('click', () => setLayout('editor'));
   elements.focusBtn.addEventListener('click', () => setFocusMode(document.body.dataset.focus !== 'on'));
   elements.themeSelect.addEventListener('change', (event) => setTheme(event.target.value));
-  elements.helpBtn.addEventListener('click', () => openDialog(elements.helpDialog));
-  elements.aboutBtn.addEventListener('click', () => openDialog(elements.aboutDialog));
+  elements.helpButton.addEventListener('click', () => openDialog(elements.helpDialog));
+  elements.aboutButton.addEventListener('click', () => openDialog(elements.aboutDialog));
 }
 
 function bootstrap() {
