@@ -270,11 +270,26 @@ $$
       out = out.replace(/\\textit\{([^{}]+)\}/g, '<em>$1</em>');
       out = out.replace(/\\underline\{([^{}]+)\}/g, '<u>$1</u>');
       out = out.replace(/\\\\/g, '<br>');
-      out = out.replace(/\$([^$\n]+)\$/g, '<span class="math-inline">$1</span>');
+      out = out.replace(/\$((?:\\.|[^$])+?)\$/g, '<span class="math-inline">$1</span>');
       return out;
     }
 
+    function parseList(lines, index, closingTag) {
+      const items = [];
+      let i = index;
+      while (i + 1 < lines.length) {
+        i += 1;
+        const listLine = lines[i].trim();
+        if (listLine === closingTag) break;
+        const item = listLine.match(/^\\item\s+(.*)$/);
+        if (item) items.push(`<li>${renderInline(item[1])}</li>`);
+      }
+      return { html: items.join('') || '<li></li>', index: i };
+    }
+
     function renderLatexSource(source) {
+      // This standalone parser targets one top-level document block for offline preview.
+      // It is intentionally simple and does not aim to fully implement TeX parsing rules.
       const bodyMatch = source.match(/\\begin\{document\}([\s\S]*?)\\end\{document\}/);
       const body = bodyMatch ? bodyMatch[1] : source;
       const title = source.match(/\\title\{([^}]*)\}/);
@@ -323,29 +338,17 @@ $$
 
         if (trimmed === '\\begin{itemize}') {
           flushParagraph();
-          const items = [];
-          while (i + 1 < lines.length) {
-            i += 1;
-            const listLine = lines[i].trim();
-            if (listLine === '\\end{itemize}') break;
-            const item = listLine.match(/^\\item\s+([\s\S]+)/);
-            if (item) items.push(`<li>${renderInline(item[1])}</li>`);
-          }
-          html += `<ul>${items.join('') || '<li></li>'}</ul>`;
+          const result = parseList(lines, i, '\\end{itemize}');
+          html += `<ul>${result.html}</ul>`;
+          i = result.index;
           continue;
         }
 
         if (trimmed === '\\begin{enumerate}') {
           flushParagraph();
-          const items = [];
-          while (i + 1 < lines.length) {
-            i += 1;
-            const listLine = lines[i].trim();
-            if (listLine === '\\end{enumerate}') break;
-            const item = listLine.match(/^\\item\s+([\s\S]+)/);
-            if (item) items.push(`<li>${renderInline(item[1])}</li>`);
-          }
-          html += `<ol>${items.join('') || '<li></li>'}</ol>`;
+          const result = parseList(lines, i, '\\end{enumerate}');
+          html += `<ol>${result.html}</ol>`;
+          i = result.index;
           continue;
         }
 
