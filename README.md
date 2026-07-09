@@ -77,7 +77,20 @@ Everything runs in your browser. Your files never leave your machine unless you 
 | Language | TypeScript |
 | Deployment | GitHub Pages |
 
-## Running locally
+## Run locally (no install needed)
+
+If you downloaded the repository ZIP, you can use TeXbrain immediately:
+
+1. Extract the ZIP.
+2. Open the extracted folder.
+3. Double-click `texbrain.html`.
+
+This opens a standalone offline editor from `file://` with live source preview.  
+It keeps core writing flow (edit LaTeX/source + instant preview), but advanced app features such as full PDF compilation, real-time collaboration, and git sync are not available in this static mode.
+
+## Developer setup (full app)
+
+To run the full Svelte app with PDF compilation and git/collaboration workflows:
 
 ```bash
 git clone https://github.com/swimmingbrain/texbrain.git
