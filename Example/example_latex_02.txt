@@ -1,0 +1,149 @@
+\documentclass[11pt,a4paper]{article}
+
+% --- Essential Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amsfonts, amssymb, mathtools} % Advanced Math
+\usepackage{booktabs, tabularx, multirow}           % Professional Tables
+\usepackage{tikz}                                  % Vector Graphics & Flowcharts
+\usepackage{listings}                              % Code Snippets
+\usepackage{xcolor}                                % Custom Colors
+\usepackage{hyperref}                              % Hyperlinks
+
+% --- Package Configurations ---
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstluasetup{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\begin{document}
+
+\title{Advanced \LaTeX\ Demonstration Template}
+\author{Technical Writing Team}
+\date{\today}
+\maketitle
+
+\section{Complex Multi-Line Mathematics}
+Using the \texttt{amsmath} and \texttt{mathtools} packages, we can typeset conditional functions, optimization constraints, and matrix operations cleanly. Equation~\ref{eq:optimization} demonstrates an optimization problem using nested matrices and optimization operators:
+
+\begin{equation}
+\label{eq:optimization}
+\max_{\theta \in \Theta} \mathcal{L}(\theta) = \sum_{i=1}^{N} \ln \left[ \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( -\frac{(y_i - \mathbf{x}_i^T\mathbf{\beta})^2}{2\sigma^2} \right) \right] - \lambda \sum_{j=1}^{p} |\beta_j|
+\end{equation}
+
+For multi-line equations requiring strict custom vertical alignment points, use the \texttt{align} environment:
+\begin{align}
+    f(x) &= \int_{-\infty}^{\infty} \hat{f}(\xi) \, e^{2\pi i x \xi} \, d\xi \label{eq:fourier} \\
+         &= \lim_{k \to \infty} \sum_{n=-k}^{k} c_n \psi_n(x) \nonumber \\
+         &= \begin{cases}
+            \frac{1}{2L} & \text{if } -L \le x \le L \\
+            0 & \text{otherwise}
+         \end{cases}
+\end{align}
+
+\section{Professional Data Tables}
+Never use vertical lines in scientific document tables. The \texttt{booktabs} package introduces thick and thin rules (\texttt{\textbackslash toprule}, \texttt{\textbackslash midrule}, \texttt{\textbackslash bottomrule}) for a clean aesthetic. We use \texttt{tabularx} to enforce fixed-width columns with text auto-wrapping.
+
+\begin{table}[htbp]
+\centering
+\caption{System Performance Under Scaled Stress Operations}
+\label{tab:performance}
+\begin{tabularx}{\textwidth}{l X c c r}
+\toprule
+\multirow{2}{*}{\textbf{Batch ID}} & \multirow{2}{*}{\textbf{Failure Vector Analysis Notes}} & \multicolumn{2}{c}{\textbf{Resource Footprint}} & \multirow{2}{*}{\textbf{Efficiency}} \\
+\cmidrule(lr){3-4}
+& & CPU (\%) & RAM (GB) & \\
+\midrule
+SYS-001 & Buffer overflow triggered by concurrent WebSocket client threads. & 94.2 & 16.4 & 12.4\% \\
+SYS-002 & Normal execution threshold maintained; no memory leak detected. & 21.0 & 4.1 & 98.7\% \\
+SYS-003 & Garbage collection pause exceeded 500ms limit under high query load. & 67.8 & 32.1 & 45.2\% \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Programmatic Flowcharts (TikZ)}
+Instead of importing heavy image files, build flowcharts natively using vector code. This matches your document fonts precisely and renders sharply at any zoom scale.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    node distance=1.8cm,
+    startstop/.style={draw, rectangle, rounded corners, minimum width=2.5cm, minimum height=0.8cm, text centered, fill=blue!10, font=\small\bfseries},
+    process/.style={draw, rectangle, minimum width=2.5cm, minimum height=0.8cm, text centered, fill=orange!10, font=\small},
+    decision/.style={draw, diamond, aspect=2, minimum width=2.5cm, text centered, fill=green!10, font=\small},
+    arrow/.style={thick,-{Stealth[scale=1.2]}}
+]
+
+    % Nodes
+    \node (start) [startstop] {Initialize System};
+    \node (proc1) [process, below of=start] {Fetch API Request};
+    \node (dec1)  [decision, below of=proc1, node distance=2.2cm] {Token Valid?};
+    \node (proc2) [process, right of=dec1, node distance=4cm] {Log Auth Error};
+    \node (stop)  [startstop, below of=dec1, node distance=2.2cm] {Serve Payload};
+
+    % Arrows
+    \draw [arrow] (start) -- (proc1);
+    \draw [arrow] (proc1) -- (dec1);
+    \draw [arrow] (dec1) -- node[anchor=south] {No} (proc2);
+    \draw [arrow] (dec1) -- node[anchor=east] {Yes} (stop);
+    \draw [arrow] (proc2) |- (start);
+
+\end{tikzpicture}
+\caption{Middleware Token Authentication Framework Lifecycle.}
+\label{fig:flowchart}
+\end{figure}
+
+\section{Embedded Source Code Code Listings}
+The \texttt{listings} package isolates blocks of program code, adding dynamic syntax coloring and line numbering without breaking compilation formatting.
+
+\begin{lstlisting}[language=Python, caption={Python Generator Object Loop Example.}]
+def fibonacci_sequence(limit: int):
+    """Generates Fibonacci numbers up to a specified limit."""
+    a, b = 0, 1
+    while a < limit:
+        yield a
+        a, b = b, a + b
+
+# Executing the generator
+for number in fibonacci_sequence(100):
+    print(f"Validated Sequence Element: {number}")
+\end{lstlisting}
+
+
+
+\begin{align*}
+x^2 + y^2 &= 1 \\
+y &= \sqrt{1 - x^2}
+\end{align*}
+
+
+
+\maketitle % Generates the title block
+
+\begin{equation}
+    f(x) = \int_{a}^{b} \frac{1}{x} \, dx
+\end{equation}
+
+
+\end{document}

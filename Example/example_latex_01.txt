@@ -1,0 +1,65 @@
+
+
+
+\begin{align*}
+x^2 + y^2 &= 1 \\
+y &= \sqrt{1 - x^2}
+\end{align*}
+
+
+
+
+
+
+\documentclass[12pt, letterpaper]{article}
+
+% --- Preamble (Packages and Settings) ---
+\usepackage{amsmath}   % Advanced math tools
+\usepackage{graphicx}  % Enhanced support for graphics
+\usepackage{hyperref}  % Clickable cross-references and URLs
+
+\title{Introduction to \LaTeX}
+\author{Jane Doe}
+\date{\today}
+
+% --- Main Document ---
+\begin{document}
+
+\maketitle % Generates the title block
+
+\section{Introduction}
+Welcome to \LaTeX! This is a simple paragraph showing how easy it is to type text. Leaving a blank line automatically creates a new paragraph with an indentation.
+
+You can format text to be \textbf{bold}, \textit{italicized}, or \underline{underlined}.
+
+\section{Mathematics}
+LaTeX shines when formatting math. You can write inline equations like $E = mc^2$ by using single dollar signs. 
+
+\subsection{Displayed Equations}
+For larger, centered equations, use double dollar signs or the \texttt{equation} environment:
+\begin{equation}
+    f(x) = \int_{a}^{b} \frac{1}{x} \, dx
+\end{equation}
+
+Here is a matrix example using the \texttt{amsmath} package:
+$$
+A = \begin{pmatrix} 
+1 & 2 \\ 
+3 & 4 
+\end{pmatrix}
+$$
+
+\section{Lists}
+You can easily build organized lists.
+
+\begin{itemize}
+    \item This is a bullet point.
+    \item This is another bullet point.
+\end{itemize}
+
+\begin{enumerate}
+    \item This is the first numbered item.
+    \item This is the second numbered item.
+\end{enumerate}
+
+\end{document}
